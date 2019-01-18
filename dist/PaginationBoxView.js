@@ -276,6 +276,32 @@ var PaginationBoxView = function (_Component) {
       var previousAriaDisabled = selected === 0 ? 'true' : 'false';
       var nextAriaDisabled = selected === pageCount - 1 ? 'true' : 'false';
 
+      var previousAnchorProps = {
+        onClick: this.handlePreviousPage,
+        className: this.previousLinkClassName,
+        href: this.hrefBuilder(selected - 1),
+        role: 'button',
+        onKeyPress: this.handlePreviousPage,
+        'aria-disabled': previousAriaDisabled
+      };
+
+      if (!previousAriaDisabled) {
+        previousAnchorProps.tabIndex = '0';
+      }
+
+      var nextAnchorProps = {
+        onClick: this.handleNextPage,
+        className: this.nextLinkClassName,
+        href: this.hrefBuilder(selected + 1),
+        role: 'button',
+        onKeyPress: this.handleNextPage,
+        'aria-disabled': nextAriaDisabled
+      };
+
+      if (!nextAriaDisabled) {
+        nextAnchorProps.tabIndex = '0';
+      }
+
       return _react2.default.createElement(
         'ul',
         { className: containerClassName },
@@ -284,13 +310,7 @@ var PaginationBoxView = function (_Component) {
           { className: previousClasses },
           _react2.default.createElement(
             'a',
-            { onClick: this.handlePreviousPage,
-              className: previousLinkClassName,
-              href: this.hrefBuilder(selected - 1),
-              tabIndex: '0',
-              role: 'button',
-              onKeyPress: this.handlePreviousPage,
-              'aria-disabled': previousAriaDisabled },
+            previousAnchorProps,
             previousLabel
           )
         ),
@@ -300,13 +320,7 @@ var PaginationBoxView = function (_Component) {
           { className: nextClasses },
           _react2.default.createElement(
             'a',
-            { onClick: this.handleNextPage,
-              className: nextLinkClassName,
-              href: this.hrefBuilder(selected + 1),
-              tabIndex: '0',
-              role: 'button',
-              onKeyPress: this.handleNextPage,
-              'aria-disabled': nextAriaDisabled },
+            nextAnchorProps,
             nextLabel
           )
         )

@@ -284,30 +284,45 @@ export default class PaginationBoxView extends Component {
     const previousAriaDisabled = selected === 0 ? 'true' : 'false';
     const nextAriaDisabled = selected === pageCount - 1 ? 'true' : 'false';
 
+    const previousAnchorProps = {
+      onClick: this.handlePreviousPage,
+      className: previousLinkClassName,
+      href: this.hrefBuilder(selected - 1),
+      role: 'button',
+      onKeyPress: this.handlePreviousPage,
+      'aria-disabled': previousAriaDisabled,
+    }
+
+    if (!previousAriaDisabled) {
+      previousAnchorProps.tabIndex = '0';
+    }
+
+    const nextAnchorProps = {
+      onClick: this.handleNextPage,
+      className: nextLinkClassName,
+      href: this.hrefBuilder(selected + 1),
+      role: 'button',
+      onKeyPress: this.handleNextPage,
+      'aria-disabled': nextAriaDisabled,
+    }
+
+    if (!nextAriaDisabled) {
+      nextAnchorProps.tabIndex = '0';
+    }
+
     return (
       <ul className={containerClassName}>
         <li className={previousClasses}>
-          <a onClick={this.handlePreviousPage}
-             className={previousLinkClassName}
-             href={this.hrefBuilder(selected - 1)}
-             tabIndex="0"
-             role="button"
-             onKeyPress={this.handlePreviousPage}
-             aria-disabled={previousAriaDisabled}>
+          <a {...previousAnchorProps}>
             {previousLabel}
           </a>
+
         </li>
 
         {this.pagination()}
 
         <li className={nextClasses}>
-          <a onClick={this.handleNextPage}
-             className={nextLinkClassName}
-             href={this.hrefBuilder(selected + 1)}
-             tabIndex="0"
-             role="button"
-             onKeyPress={this.handleNextPage}
-             aria-disabled={nextAriaDisabled}>
+          <a {...nextAnchorProps}>
             {nextLabel}
           </a>
         </li>
